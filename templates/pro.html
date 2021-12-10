@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CAR NETWORK</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='pro.css') }}"> <!-- css 파일 지정-->
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>CAR IoT</h2>
+        </div>
+        <div class="main">
+            <div>
+                <button id="lockBtn" onclick="lock()">LOCK</button>                      <!-- Javascript 함수 지정 -->
+            </div>
+           
+        </div>
+        <div id="result">
+
+        </div>
+    </div>
+    <script>
+        function lock(){     //자동차 잠금 
+            fetch("/lock")                                                    /* 해당 경로 파일을 실행 */
+            .then(response=> { console.log(response); return response.text()})
+            .then(data=> {
+                console.log(data);
+                let result = document.querySelector("#result");     
+                let button = document.querySelector("#lockBtn")            /* result 영역을 알아내고 */
+                const btnElement = document.getElementById('lockBtn');
+                btnElement.innerText = 'LOCK';
+                if(data=="lock"){                                                 /* "ok" 가 돌아오면 이에 따라 적합한 결과 출력해 줌 */
+                    const btnElement = document.getElementById('lockBtn');
+                    btnElement.innerText = 'UNLOCK'; 
+                    result.innerHTML = "<h1>LOCK</h1>";
+                }if(data=="unlock"){                                                 /* "ok" 가 돌아오면 이에 따라 적합한 결과 출력해 줌 */
+                const btnElement = document.getElementById('lockBtn');
+                    btnElement.innerText = 'LOCK'; 
+                    result.innerHTML = "<h1>UNLOCK</h1>";
+                }
+                // else{
+                //     result.innerHTML = "<h1>error</h1>";
+                // }
+            });
+        }
+        // function unlock(){                  //자동차 열기
+        //     fetch("/unlock")
+        //     .then(response=> { console.log(response); return response.text()})
+        //     .then(data=> {
+        //         console.log(data);
+        //         let result = document.querySelector("#result");
+        //         if(data=="ok"){  
+        //             result.innerHTML = "<h1>unlock</h1>";
+        //         }else{
+        //             result.innerHTML = "<h1>error</h1>";
+        //         }
+        //     });
+        // }
+    </script>
+</body>
+</html>
