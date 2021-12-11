@@ -5,9 +5,9 @@ from tkinter import *
 import spidev
 from flask import Flask, request
 from flask import render_template, render_template, Response 
-import cv2
 from PIL import Image
 import picamera
+import cv2
 
 app = Flask(__name__)
 vc = cv2.VideoCapture(0)
@@ -103,12 +103,12 @@ def trunk():
     if trunk==False:
         servo2.ChangeDutyCycle(2.5)  #모터로 잠금 0도  -->닫기
         trunk=not trunk
-        return "trunkclose"
+        return "trunkopen"
         
     else:
         servo2.ChangeDutyCycle(7.5)  #모터로 잠금 0도  -->열기
         trunk=not trunk
-        return "trunkopen"
+        return "trunkclose"
 x=0
 y=0
 def gearLoop():
