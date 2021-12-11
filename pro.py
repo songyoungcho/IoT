@@ -154,10 +154,17 @@ def gear():
     #a,b=gearLoop()
     if(a==-1):
         x='l'
+        GPIO.output(led_pin_l,1)    # LED ON
+        time.sleep(1)   # 1초동안 대기상태
+        GPIO.output(led_pin_l,0)    # LED OFF   # LED 깜빡 
     if(a==0):
         x='x'
+        
     if(a==1):
         x='r'
+        GPIO.output(led_pin_r,1)    # LED ON
+        time.sleep(1)   # 1초동안 대기상태
+        GPIO.output(led_pin_r,0)    # LED OFF   # LED 깜빡 
     if(b==0):
         y='d'
     if(b==1):
@@ -171,7 +178,6 @@ def gear():
     return x+y
 
 def ledLcont():
-    while(a==-1):
         GPIO.output(led_pin_l,1)    # LED ON
         time.sleep(1)   # 1초동안 대기상태
         GPIO.output(led_pin_l,0)    # LED OFF   # LED 깜빡 
@@ -182,7 +188,7 @@ def ledRcont():
     GPIO.output(led_pin_r,0)    # LED OFF   # LED 깜빡 
 
 t1 = threading.Thread(target=ledLcont, args=("t1"))  
-t1 = threading.Thread(target=ledRcont, args=("t1"))     
+t2 = threading.Thread(target=ledRcont, args=("t2"))    
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
