@@ -41,7 +41,7 @@
                 console.log(data);
                 let result = document.querySelector("#result");     
                 let button = document.querySelector("#lockBtn")
-                result.innerHTML = "<h1 id='re'>LOCK</h2>";
+                result.innerHTML = "<h1 id='re'>LOCK</h1>";
                 
             });
         }
@@ -51,7 +51,7 @@
             .then(data=> {
                 console.log(data);
                 let result = document.querySelector("#result");
-                result.innerHTML = "<h1 id='re'>UNLOCK</h2>";
+                result.innerHTML = "<h1 id='re'>UNLOCK</h1>";
             });
         }
         function trunk(){                  //트렁크 열기
@@ -62,9 +62,9 @@
                 let result = document.querySelector("#result");
                 
                  if(data=="trunkopen"){                                                 /* "ok" 가 돌아오면 이에 따라 적합한 결과 출력해 줌 */
-                 result.innerHTML = "<h1 id='re'>TRUNK OPEN</h2>";
+                 result.innerHTML = "<h1 id='re'>TRUNK OPEN</h1>";
                 }if(data=="trunkclose"){                                                 /* "ok" 가 돌아오면 이에 따라 적합한 결과 출력해 줌 */
-                result.innerHTML = "<h1 id='re'TRUNK CLOSE</h2>";
+                result.innerHTML = "<h1 id='re'TRUNK CLOSE</h1>";
                 }
                 
             });
