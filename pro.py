@@ -117,10 +117,9 @@ def trunk():
         return "trunkopen"
 
 x=0
-y=0
+y=5
 def gearLoop():
     global x,y
-# 무한루프
 # X, Y 축 포지션값
     vrx_pos = readadc(vrx_channel)
     vry_pos = readadc(vry_channel)
@@ -128,60 +127,72 @@ def gearLoop():
     sw_val = readadc(sw_channel)
 # 출력
     if(vrx_pos==0):
-        x=x-1
+        x=x+2
     if(vrx_pos>900):
         x=x+1
     if(vry_pos==0):
-        y=y-1
+        y=y-5
     if(vry_pos>800):
-        y=y+1
-    if(x>1 or x<-1):
+        y=y+5
+    if(x>2 or x<0):
         x=0
-    if(y<0 or y>3):
-        y=0
+    if(y<5 or y>20):
+        y=5
     if(sw_val==0):
         p.start(10)
         time.sleep(3)
         p.stop()
     time.sleep(0.5)
-    return x,y
-a,b=gearLoop()
-@app.route('/gear')
-def gear():
-    a,b=gearLoop()
-    x=''
-    y=''
-    #a,b=gearLoop()
-    if(a==-1):
-        x='l'
-    if(a==0):
-        x='x'
-    if(a==1):
-        x='r'
-    if(b==0):
-        y='d'
-    if(b==1):
-        y='n'
-    if(b==2):
-        y='b'
-    if(b==3):
-        y='p'
-    print(x+y)
-    time.sleep(0.5)
     return x+y
 
-def ledLcont():
-    while(a==-1):
-        GPIO.output(led_pin_l,1)    # LED ON
-        time.sleep(1)   # 1초동안 대기상태
-        GPIO.output(led_pin_l,0)    # LED OFF   # LED 깜빡 
 
-def ledRcont():
-    GPIO.output(led_pin_r,1)    # LED ON
-    time.sleep(1)   # 1초동안 대기상태
-    GPIO.output(led_pin_r,0)    # LED OFF   # LED 깜빡 
+@app.route('/gear')
+def gear():
+    s=''
+    a=gearLoop
+    if(a==22):
+        s='lp'
+    if(a==17):
+        s='lb'
+    if(a==12):
+        s='ln'
+    if(a==7):
+        s='ld'
+    if(a==20):
+        s='xp'
+    if(a==15):
+        s='xb'
+    if(a==10):
+        s='xn'
+    if(a==5):
+        s='xd'
+    if(a==21):
+        s='rp'
+    if(a==16):
+        s='rb'
+    if(a==11):
+        s='rn'
+    if(a==6):
+        s='rd'
+    print(s)
+    time.sleep(0.5)
+    return x
 
-t1 = threading.Thread(target=ledLcont, args=("t1"))    
+    
+
+
+# def ledLcont():
+#     while(a==-1):
+#         GPIO.output(led_pin_l,1)    # LED ON
+#         time.sleep(1)   # 1초동안 대기상태
+#         GPIO.output(led_pin_l,0)    # LED OFF   # LED 깜빡 
+
+# def ledRcont():
+#     GPIO.output(led_pin_r,1)    # LED ON
+#     time.sleep(1)   # 1초동안 대기상태
+#     GPIO.output(led_pin_r,0)    # LED OFF   # LED 깜빡 
+
+# t1 = threading.Thread(target=ledLcont, args=("t1"))    
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
