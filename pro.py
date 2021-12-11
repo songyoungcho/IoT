@@ -1,4 +1,3 @@
-
 import RPi.GPIO as GPIO
 import threading
 import time
@@ -144,17 +143,19 @@ def gearLoop():
         p.start(10)
         time.sleep(3)
         p.stop()
+    time.sleep(0.5)
     return x,y
-
+a,b=gearLoop()
 @app.route('/gear')
 def gear():
+    a,b=gearLoop()
     x=''
     y=''
-    a,b=gearLoop()
+    #a,b=gearLoop()
     if(a==-1):
         x='l'
     if(a==0):
-        x='n'
+        x='x'
     if(a==1):
         x='r'
     if(b==0):
@@ -162,14 +163,25 @@ def gear():
     if(b==1):
         y='n'
     if(b==2):
-        y='r'
+        y='b'
     if(b==3):
         y='p'
-
+    print(x+y)
     time.sleep(0.5)
     return x+y
 
+def ledLcont():
+    while(a==-1):
+        GPIO.output(led_pin_l,1)    # LED ON
+        time.sleep(1)   # 1초동안 대기상태
+        GPIO.output(led_pin_l,0)    # LED OFF   # LED 깜빡 
 
+def ledRcont():
+    GPIO.output(led_pin_r,1)    # LED ON
+    time.sleep(1)   # 1초동안 대기상태
+    GPIO.output(led_pin_r,0)    # LED OFF   # LED 깜빡 
+
+t1 = threading.Thread(target=ledLcont, args=("t1"))    
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")

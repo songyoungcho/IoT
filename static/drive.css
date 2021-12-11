@@ -32,13 +32,13 @@ p{
     font-size:xx-large;
     color:#56606ed2;
 }
-.gear{
+.cgear{
 
     
     margin-right: 80px;
     display: inline-block;
 }
-#gear{
+.gear{
     font-size:xx-large;
     color:#56606ed2;
     font-weight: bold;

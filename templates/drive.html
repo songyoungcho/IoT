@@ -28,41 +28,77 @@
     </div>
 
     <div class="handle">
-      <div class="gear">
-        <a class="gear" href="http://www.naver.com" onclick="setInterval();return false;"> <!--return false :: onClick 이벤트 뒤에 return false 를 해주면 href 이벤트가 작동하지 않는다. -->
+      <div class="cgear">
+        <a class="cgear" href="http://www.naver.com" onclick="setInterval();return false;"> <!--return false :: onClick 이벤트 뒤에 return false 를 해주면 href 이벤트가 작동하지 않는다. -->
           <img src="https://ifh.cc/g/5bxoX9.png"/></a> 
         <br>
-        <p class="gear">PUSH</p>
+        <p class="cgear">PUSH</p>
       </div>
-      <div class="gear">
-        <h1 id="gear">P</h1>
+      <div class="cgear">
+        <h1 class="gear" id="p">P</h1>
         <br>
-        <h1 id="gear">R</h1>
+        <h1 class="gear" id="b">R</h1>
         <br>
-        <h1 id="gear">N</h1>
+        <h1 class="gear" id="n">N</h1>
         <br>
-        <h1 id="gear">D</h1>
+        <h1 class="gear" id="d">D</h1>
 
       </div>
     </div>
     <script>
       var r= document.getElementById('r');
       var l= document.getElementById('l');
+      var p=document.getElementById('p');
+      var b=document.getElementById('b');
+      var n=document.getElementById('n');
+      var d=document.getElementById('d');
       setInterval(function gear(){     //기어
           fetch("/gear")                                                    /* 해당 경로 파일을 실행 */
           .then(response=> { console.log(response); return response.text()})
           .then(data=> {
               console.log(data);
-              alert(data);    
-              // if("r" in data){
-              //   r.src= 'https://ifh.cc/g/dnwkIV.png';
-              // }
-              // if("l" in data){
-              //   l.src= 'https://ifh.cc/g/4qSzCX.png';
-              // }
+              //alert(data);  
+              setTimeout(function(){},1000);  
+              if(data.indexOf('r') !== -1){
+                r.src= 'https://ifh.cc/g/dnwkIV.png';
+              }
+              if(data.indexOf('l') !== -1){
+                l.src= 'https://ifh.cc/g/4qSzCX.png';
+              }
+              if(data.indexOf('x') !== -1){
+                l.src= 'https://ifh.cc/g/5ozvDu.png';
+                r.src= 'https://ifh.cc/g/ilKSBj.png';
+              }
+              if(data.indexOf('d') !== -1){
+                d.style.color='red';
+                p.style.color='#56606ed2';
+                b.style.color='#56606ed2';
+                n.style.color='#56606ed2';
+              }
+              if(data.indexOf('p') !== -1){
+                p.style.color='red';
+                d.style.color='#56606ed2';
+                b.style.color='#56606ed2';
+                n.style.color='#56606ed2';
+              }
+              if(data.indexOf('b') !== -1){
+                b.style.color='red';
+                p.style.color='#56606ed2';
+                d.style.color='#56606ed2';
+                n.style.color='#56606ed2';
+              }
+              if(data.indexOf('n') !== -1){
+                n.style.color='red';
+                p.style.color='#56606ed2';
+                b.style.color='#56606ed2';
+                d.style.color='#56606ed2';
+              }
+
+              
               
           });
-        },1000/20);
+          
+        },1000);
       
   </script>
 </body>
