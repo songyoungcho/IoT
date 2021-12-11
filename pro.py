@@ -114,41 +114,10 @@ def trunk():
         trunk=not trunk
         return "trunkopen"
 
-# @app.route("/gear")
-# def gear():
-#     gear_val=[0,0]
-# # 무한루프
-#     while True:
-# # X, Y 축 포지션값
-#         vrx_pos = readadc(vrx_channel)
-#         vry_pos = readadc(vry_channel)
-# # 스위치 입력
-#         sw_val = readadc(sw_channel)
-# # 출력
-#         if vrx_pos==0:
-#                 if gear_val[0]>-1:
-#                     gear_val[0]-=1
-#                     return gear_val
-#         if vrx_pos>1000:
-#             if gear_val[0]<1:
-#                 gear_val[0]+=1
-#                 return gear_val
-#         if vry_pos==0:
-#             if gear_val[1]>0:
-#                 gear_val[1]-=1
-#                 return gear_val
-#         if vry_pos>1000:
-#             if gear_val[1]<3:
-#                 gear_val[1]+=1
-#                 return gear_val
-#         else:
-#             return gear_val
-# # delay 시간만큼 기다림
-#         time.sleep(delay)
-#         print(gear_val[0],gear_val[1])
-
+x=0
+y=0
 def gearLoop():
-    gear_val=[0,0]
+    global x,y
 # 무한루프
 # X, Y 축 포지션값
     vrx_pos = readadc(vrx_channel)
@@ -156,55 +125,46 @@ def gearLoop():
 # 스위치 입력
     sw_val = readadc(sw_channel)
 # 출력
-    if vrx_pos==0:
-            if gear_val[0]>-1:
-                gear_val[0]-=1
-                return gear_val
-    if vrx_pos>1000:
-        if gear_val[0]<1:
-            gear_val[0]+=1
-            return gear_val
-    if vry_pos==0:
-        if gear_val[1]>0:
-            gear_val[1]-=1
-            return gear_val
-    if vry_pos>1000:
-        if gear_val[1]<3:
-            gear_val[1]+=1
-            return gear_val
-    else:
-        return gear_val
+    if(vrx_pos==0):
+        x=x-1
+    if(vrx_pos>900):
+        x=x+1
+    if(vry_pos==0):
+        y=y-1
+    if(vry_pos>800):
+        y=y+1
+    if(x>1 or x<-1):
+        x=0
+    if(y<0 or y>3):
+        y=0
+    return x,y,sw_val
 
 @app.route('/gear')
 def gear():
-    while(1):
-        if(gearLoop()[0]==-1):
-            if(gearLoop()[1]==0):
-                return "ld"
-            if(gearLoop()[1]==1):
-                return "ln"
-            if(gearLoop()[1]==2):
-                return "lr"
-            else:
-                return "lp"
-        if(gearLoop()[0]==0):
-            if(gearLoop()[1]==0):
-                return "nd"
-            if(gearLoop()[1]==1):
-                return "nn"
-            if(gearLoop()[1]==2):
-                return "nr"
-            else:
-                return "np"
-        if(gearLoop()[0]==1):
-            if(gearLoop()[1]==0):
-                return "rd"
-            if(gearLoop()[1]==1):
-                return "rn"
-            if(gearLoop()[1]==2):
-                return "rr"
-            else:
-                return "rp"
+    x=''
+    y=''
+    z=''
+    a,b,c=gearLoop()
+    if(a==-1):
+        x='l'
+    if(a==0):
+        x='n'
+    if(a==1):
+        x='r'
+    if(b==0):
+        y='d'
+    if(b==1):
+        y='n'
+    if(b==2):
+        y='r'
+    if(b==3):
+        y='p'
+    if(c==0):
+        z='s'
+
+    time.sleep(0.5)
+    return x+y+z
+
 
 
 if __name__ == "__main__":
