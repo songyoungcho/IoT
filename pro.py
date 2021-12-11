@@ -153,8 +153,7 @@ def gearLoop():
     time.sleep(0.5)
     return x,y
 a,b=gearLoop()
-@app.route('/gear')
-def gear():
+def gearc():
     a,b=gearLoop()
     x=''
     y=''
@@ -217,6 +216,42 @@ def warn():
         p.start(30)
         time.sleep(1)
         p.stop()
+
+@app.route('/gear')
+def gear():
+    # t=threading.Thread(target=gearc)
+    # t.start()
+
+    t1=threading.Thread(target=warn)
+    t1.start()
+    a,b=gearLoop()
+    x=''
+    y=''
+    #a,b=gearLoop()
+    if(a==-1):
+        x='l'
+        GPIO.output(led_pin_l,1)    # LED ON
+        time.sleep(1)   # 1초동안 대기상태
+        GPIO.output(led_pin_l,0)    # LED OFF   # LED 깜빡 
+    if(a==0):
+        x='x'
+        
+    if(a==1):
+        x='r'
+        GPIO.output(led_pin_r,1)    # LED ON
+        time.sleep(1)   # 1초동안 대기상태
+        GPIO.output(led_pin_r,0)    # LED OFF   # LED 깜빡 
+    if(b==0):
+        y='d'
+    if(b==1):
+        y='n'
+    if(b==2):
+        y='b'
+    if(b==3):
+        y='p'
+    print(x+y)
+    time.sleep(0.5)
+    return x+y
 
 
 
