@@ -17,6 +17,8 @@ SERVO_PIN = 13
 SERVO_PIN2 = 19
 motion = 6
 buzzer=18
+TRIG = 23
+ECHO = 24
 
 # 불필요한 warning 제거, GPIO핀의 번호 모드 설정
 GPIO.setwarnings(False)
@@ -28,12 +30,17 @@ GPIO.setup(SERVO_PIN, GPIO.OUT)
 GPIO.setup(SERVO_PIN2, GPIO.OUT)
 GPIO.setup(motion, GPIO.IN)
 GPIO.setup(buzzer, GPIO.OUT)
+GPIO.setup(TRIG,GPIO.OUT)
+GPIO.setup(ECHO,GPIO.IN)
 
 
 # PWM 인스턴스 servo 생성, 주파수 50으로 설정 
 servo = GPIO.PWM(SERVO_PIN,50)
 servo2 = GPIO.PWM(SERVO_PIN2,50)
 p = GPIO.PWM(buzzer, 100)  
+GPIO.output(TRIG, False)
+print("Waiting for sensor to settle")
+time.sleep(2)
 # PWM 듀티비 0 으로 시작 
 servo.start(0)
 servo.ChangeDutyCycle(2.5)  # 모터 초기화 0도 열어둔 상태
@@ -177,18 +184,41 @@ def gear():
     time.sleep(0.5)
     return x+y
 
-def ledLcont():
-        GPIO.output(led_pin_l,1)    # LED ON
-        time.sleep(1)   # 1초동안 대기상태
-        GPIO.output(led_pin_l,0)    # LED OFF   # LED 깜빡 
 
-def ledRcont():
-    GPIO.output(led_pin_r,1)    # LED ON
-    time.sleep(1)   # 1초동안 대기상태
-    GPIO.output(led_pin_r,0)    # LED OFF   # LED 깜빡 
 
-t1 = threading.Thread(target=ledLcont, args=("t1"))  
-t2 = threading.Thread(target=ledRcont, args=("t2"))    
+
+def distance():
+    GPIO.output(TRIG, True)   # Triger 핀에  펄스신호를 만들기 위해 1 출력
+    time.sleep(0.00001)       # 10µs 딜레이 
+    GPIO.output(TRIG, False)
+        
+    while GPIO.input(ECHO)==0:
+        start = time.time()	 # Echo 핀 상승 시간 
+    while GPIO.input(ECHO)==1:
+        stop= time.time()	 # Echo 핀 하강 시간 
+            
+    check_time = stop - start
+    distance = check_time * 34300 / 2
+    time.sleep(0.4)	# 0.4초 간격으로 센서 측정 
+
+    return distance
+
+@app.route('/warn')
+def warn():
+    if distance()<20:
+        p.start(10)
+        time.sleep(3)
+        p.stop()
+    if distance()<10:
+        p.start(20)
+        time.sleep(2)
+        p.stop()
+    if distance()<5:
+        p.start(30)
+        time.sleep(1)
+        p.stop()
+
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
