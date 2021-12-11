@@ -6,6 +6,7 @@ import spidev
 from flask import Flask, request
 from flask import render_template, render_template, Response 
 import cv2
+from PIL import Image
 import picamera
 
 app = Flask(__name__)
@@ -45,9 +46,7 @@ print("Waiting for sensor to settle")
 time.sleep(2)
 # PWM 듀티비 0 으로 시작 
 servo.start(0)
-servo.ChangeDutyCycle(2.5)  # 모터 초기화 0도 열어둔 상태
 servo2.start(0)
-servo2.ChangeDutyCycle(7.5)  # 모터 초기화 0도 열어둔 상태
 
 delay = 0.5
 # MCP3008 채널설정
@@ -66,6 +65,7 @@ unlock=True
 trunk=False
 open=False
 record=False
+picture=False
 
 # 0 ~ 7 까지 8개의 채널에서 SPI 데이터를 읽어서 반환
 def readadc(adcnum):
@@ -258,8 +258,37 @@ def gear():
     if(b==3):
         y='p'
     print(x+y)
-    time.sleep(0.5)
+    time.sleep(0.3)
     return x+y
+
+def pict():                                
+    with picamera.PiCamera() as camera:
+       camera.resolution = (640, 480)
+       camera.start_preview()
+       time.sleep(1)
+       camera.capture('cos.jpg')
+       camera.stop_preview()
+       
+
+
+def show(): 
+    img = Image.open("/home/pi/class/cos.jpg")
+    print(type(img))
+    img.show()
+
+@app.route('/pic')
+def pic():
+    global picture
+    if(picture==False):
+        t3=threading.Thread(target=pict)
+        t3.start()
+        picture = not picture
+        return "capture"
+    else:
+        t4=threading.Thread(target=show)
+        t4.start()
+        picture = not picture
+        return "show"
 
 
 

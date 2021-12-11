@@ -29,10 +29,10 @@
 
     <div class="handle">
       <div class="cgear">
-        <a class="cgear" href="http://localhost:8080/stream"> <!--return false :: onClick 이벤트 뒤에 return false 를 해주면 href 이벤트가 작동하지 않는다. -->
+        <a class="cgear" href="#" onclick="pic(); return false;"> <!--return false :: onClick 이벤트 뒤에 return false 를 해주면 href 이벤트가 작동하지 않는다. -->
           <img src="https://ifh.cc/g/WA00mD.png"/></a> 
         <br>
-        <p class="cgear">PUSH</p>
+        <p class="cgear" id='pict'>PUSH</p>
       </div>
       <div class="cgear">
         <h1 class="gear" id="p">P</h1>
@@ -99,6 +99,21 @@
           });
           
         },1000);
+        function pic(){                  //순간캡쳐
+            fetch("/pic")
+            .then(response=> { console.log(response); return response.text()})
+            .then(data=> {
+                console.log(data);
+                let result = document.getElementById('pict');
+                
+                 if(data=="capture"){                                                 /* "ok" 가 돌아오면 이에 따라 적합한 결과 출력해 줌 */
+                 result.innerHTML = "CAPTURE";
+                }else{                                                 /* "ok" 가 돌아오면 이에 따라 적합한 결과 출력해 줌 */
+                result.innerHTML = "PUSH";
+                }
+                
+            });
+        }
       
   </script>
 </body>
