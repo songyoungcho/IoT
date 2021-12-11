@@ -1,0 +1,46 @@
+body {
+    background-color: #D6D2CF;
+}
+.container {                    /* 전체 화면의 크기 마진 그리고 글자정렬 */
+    width: 100%;
+    height: 10%;
+    margin: 0 auto;
+    text-align: left;
+}
+.main{
+    width:100%;
+    height:50%;
+    text-align: center;
+    
+}
+
+.mid{
+
+    
+    margin-right: 180px;
+    margin-top:180px;
+    margin-bottom:150px;
+    display: inline-block;
+}
+.handle{
+    width:100%;
+    height:40%;
+    text-align: center;
+}
+p{
+    font-weight: bold;
+    font-size:xx-large;
+    color:#56606ed2;
+}
+.gear{
+
+    
+    margin-right: 80px;
+    display: inline-block;
+}
+#gear{
+    font-size:xx-large;
+    color:#56606ed2;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
