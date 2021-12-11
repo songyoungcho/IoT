@@ -17,6 +17,7 @@ led_pin_r = 2
 SERVO_PIN = 13
 SERVO_PIN2 = 19
 motion = 6
+buzzer=18
 
 # 불필요한 warning 제거, GPIO핀의 번호 모드 설정
 GPIO.setwarnings(False)
@@ -27,11 +28,13 @@ GPIO.setup(led_pin_r, GPIO.OUT)
 GPIO.setup(SERVO_PIN, GPIO.OUT)
 GPIO.setup(SERVO_PIN2, GPIO.OUT)
 GPIO.setup(motion, GPIO.IN)
+GPIO.setup(buzzer, GPIO.OUT)
 
 
 # PWM 인스턴스 servo 생성, 주파수 50으로 설정 
 servo = GPIO.PWM(SERVO_PIN,50)
 servo2 = GPIO.PWM(SERVO_PIN2,50)
+p = GPIO.PWM(buzzer, 100)  
 # PWM 듀티비 0 으로 시작 
 servo.start(0)
 servo.ChangeDutyCycle(2.5)  # 모터 초기화 0도 열어둔 상태
@@ -137,14 +140,17 @@ def gearLoop():
         x=0
     if(y<0 or y>3):
         y=0
-    return x,y,sw_val
+    if(sw_val==0):
+        p.start(10)
+        time.sleep(3)
+        p.stop()
+    return x,y
 
 @app.route('/gear')
 def gear():
     x=''
     y=''
-    z=''
-    a,b,c=gearLoop()
+    a,b=gearLoop()
     if(a==-1):
         x='l'
     if(a==0):
@@ -159,11 +165,9 @@ def gear():
         y='r'
     if(b==3):
         y='p'
-    if(c==0):
-        z='s'
 
     time.sleep(0.5)
-    return x+y+z
+    return x+y
 
 
 
