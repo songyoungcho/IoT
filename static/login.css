@@ -1,113 +1,113 @@
 *{
-    margin:0;
-    padding:0;
-    box-sizing: border-box;
-    outline: none;
-    background-color: #D6D2CF;
-  }
-
-  .font_big{
-      font-size : 2em;
-  }
-  .font_bold{font-weight: bold;}
-  .font_center{text-align: center;}
-  h1{color:#454140;}
-
-  .header{
-    width: 250px;
-    height: 50px;
-    position: fixed;
-    top:30%;
-    left:50%;
-    transform: translate(-50%, -50%);
-  }
-
-  
-
-  .container{
-    width: 250px;
-    height: 50px;
-    position: fixed;
-    top:40%;
-    left:50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .container2{
-    width: 250px;
-    height: 50px;
-    position: fixed;
-    top:48%;
-    left:50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .container3{
-    width: 250px;
-    height: 50px;
-    position: fixed;
-    top:56%;
-    left:50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .container3 div button {             /* 버튼의 모양 */
-    background-color: #76978a;
-    width:50px;
-    height:30px;
-    border-radius: 10px;
-    margin:0 0 0 100px;
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+  outline: none;
+  background-color: #D6D2CF;
 }
-  .input_id{
-    width: 100%;
-    height: 100%;
-    border : 3px solid #76978a;
-    border-radius: 10px;
-    font-size: 1.5rem;
-    padding : 10px;
-  }
-  .label{
-    position: absolute;
-    padding: 0 5px;
-    top : 50%;
-    left: 20px;
-    transform: translateY(-50%);
-    font-weight: 700;
-    font-size: 20px;
-    color : #777;
-    transition: .5s;
-  }
-  
-  .input_id:focus + .label,
-  .input_id:valid+ .label{
-    top : 0;
-    color : #76978a;
-    background-color: #D6D2CF;
-  }
 
-  .input_pw{
-    width: 100%;
-    height: 100%;
-    border : 3px solid #76978a;
-    border-radius: 10px;
-    font-size: 1.5rem;
-    padding : 10px;
-  }
-  .password{
-    position: absolute;
-    padding: 0 5px;
-    top : 50%;
-    left: 20px;
-    transform: translateY(-50%);
-    font-weight: 700;
-    font-size: 20px;
-    color : #777;
-    transition: .5s;
-  }
-  
-  .input_pw:focus + .password,
-  .input_pw:valid+ .password{
-    top : 0;
-    color : #76978a;
-    background-color: #D6D2CF;
-  }
+.font_big{
+    font-size : 2em;
+}
+.font_bold{font-weight: bold;}
+.font_center{text-align: center;}
+h1{color:#454140;}
+
+.header{
+  width: 250px;
+  height: 50px;
+  position: fixed;
+  top:30%;
+  left:50%;
+  transform: translate(-50%, -50%);
+}
+
+
+
+.container{
+  width: 250px;
+  height: 50px;
+  position: fixed;
+  top:40%;
+  left:50%;
+  transform: translate(-50%, -50%);
+}
+
+.container2{
+  width: 250px;
+  height: 50px;
+  position: fixed;
+  top:48%;
+  left:50%;
+  transform: translate(-50%, -50%);
+}
+
+.container3{
+  width: 250px;
+  height: 50px;
+  position: fixed;
+  top:56%;
+  left:50%;
+  transform: translate(-50%, -50%);
+}
+
+.container3 div button {             /* 버튼의 모양 */
+  background-color: #76978a;
+  width:50px;
+  height:30px;
+  border-radius: 10px;
+  margin:0 0 0 100px;
+}
+.input_id{
+  width: 100%;
+  height: 100%;
+  border : 3px solid #76978a;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  padding : 10px;
+}
+.label{
+  position: absolute;
+  padding: 0 5px;
+  top : 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  font-weight: 700;
+  font-size: 20px;
+  color : #777;
+  transition: .5s;
+}
+
+.input_id:focus + .label,
+.input_id:valid+ .label{
+  top : 0;
+  color : #76978a;
+  background-color: #D6D2CF;
+}
+
+.input_pw{
+  width: 100%;
+  height: 100%;
+  border : 3px solid #76978a;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  padding : 10px;
+}
+.password{
+  position: absolute;
+  padding: 0 5px;
+  top : 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  font-weight: 700;
+  font-size: 20px;
+  color : #777;
+  transition: .5s;
+}
+
+.input_pw:focus + .password,
+.input_pw:valid+ .password{
+  top : 0;
+  color : #76978a;
+  background-color: #D6D2CF;
+}

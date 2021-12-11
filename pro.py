@@ -11,7 +11,6 @@ import picamera
 
 app = Flask(__name__)
 vc = cv2.VideoCapture(0)
-
 led_pin_l = 21
 led_pin_r = 2
 SERVO_PIN = 13
@@ -21,7 +20,6 @@ buzzer=18
 TRIG = 23
 ECHO = 24
 warning=26
-
 # 불필요한 warning 제거, GPIO핀의 번호 모드 설정
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
@@ -35,15 +33,13 @@ GPIO.setup(buzzer, GPIO.OUT)
 GPIO.setup(TRIG,GPIO.OUT)
 GPIO.setup(ECHO,GPIO.IN)
 GPIO.setup(warning, GPIO.OUT)
-
-
 # PWM 인스턴스 servo 생성, 주파수 50으로 설정 
 servo = GPIO.PWM(SERVO_PIN,50)
 servo2 = GPIO.PWM(SERVO_PIN2,50)
 p = GPIO.PWM(buzzer, 100)  
 GPIO.output(TRIG, False)
-print("Waiting for sensor to settle")
-time.sleep(2)
+# print("Waiting for sensor to settle")
+# time.sleep(2)
 # PWM 듀티비 0 으로 시작 
 servo.start(0)
 servo2.start(0)
@@ -59,8 +55,6 @@ spi = spidev.SpiDev()
 spi.open(0, 0)
 # SPI 통신 속도 설정
 spi.max_speed_hz = 100000
-
-
 unlock=True
 trunk=False
 open=False
@@ -74,21 +68,16 @@ def readadc(adcnum):
     r = spi.xfer2([1, 8 + adcnum << 4, 0])
     data = ((r[1] & 3) << 8) + r[2]
     return data
-
 @app.route("/")
 def home():
     return render_template('login.html')
-
 @app.route("/pro")
 def main():
     return render_template('pro.html')
-
 @app.route("/drive")
 def drive():
     record=True
     return render_template('drive.html')
-
-
 @app.route("/lock")     #웹에서 차문 잠금 
 def lock():               
         servo.ChangeDutyCycle(7.5)  # 모터로 잠금 90도
@@ -97,9 +86,7 @@ def lock():
         time.sleep(1)   # 1초동안 대기상태
         GPIO.output(led_pin_l,0)    # LED OFF   # LED 깜빡 
         GPIO.output(led_pin_r,0)    # LED OFF
-
         return "lock"
-
 @app.route("/unlock")
 def unlock():
     servo.ChangeDutyCycle(2.5)  #모터로 잠금 0도  -->열기
@@ -109,8 +96,6 @@ def unlock():
     GPIO.output(led_pin_l,0)    # LED OFF   # LED 깜빡 
     GPIO.output(led_pin_r,0)    # LED OFF
     return "unlock"
-
-
 #트렁크 버튼
 @app.route("/trunk")
 def trunk():
@@ -124,7 +109,6 @@ def trunk():
         servo2.ChangeDutyCycle(7.5)  #모터로 잠금 0도  -->열기
         trunk=not trunk
         return "trunkopen"
-
 x=0
 y=0
 def gearLoop():
@@ -155,38 +139,6 @@ def gearLoop():
     time.sleep(0.5)
     return x,y
 a,b=gearLoop()
-def gearc():
-    a,b=gearLoop()
-    x=''
-    y=''
-    #a,b=gearLoop()
-    if(a==-1):
-        x='l'
-        GPIO.output(led_pin_l,1)    # LED ON
-        time.sleep(1)   # 1초동안 대기상태
-        GPIO.output(led_pin_l,0)    # LED OFF   # LED 깜빡 
-    if(a==0):
-        x='x'
-        
-    if(a==1):
-        x='r'
-        GPIO.output(led_pin_r,1)    # LED ON
-        time.sleep(1)   # 1초동안 대기상태
-        GPIO.output(led_pin_r,0)    # LED OFF   # LED 깜빡 
-    if(b==0):
-        y='d'
-    if(b==1):
-        y='n'
-    if(b==2):
-        y='b'
-    if(b==3):
-        y='p'
-    print(x+y)
-    time.sleep(0.5)
-    return x+y
-
-
-
 
 def distance():
     GPIO.output(TRIG, True)   # Triger 핀에  펄스신호를 만들기 위해 1 출력
@@ -201,9 +153,7 @@ def distance():
     check_time = stop - start
     distance = check_time * 34300 / 2
     time.sleep(0.4)	# 0.4초 간격으로 센서 측정 
-
     return distance
-
 @app.route('/warn')
 def warn():
     if distance()<20:
@@ -224,12 +174,10 @@ def warn():
         time.sleep(1)
         GPIO.output(warning,0)
         p.stop()
-
 @app.route('/gear')
 def gear():
     # t=threading.Thread(target=gearc)
     # t.start()
-
     t1=threading.Thread(target=warn)
     t1.start()
     a,b=gearLoop()
@@ -268,7 +216,7 @@ def pict():
        time.sleep(1)
        camera.capture('cos.jpg')
        camera.stop_preview()
-       
+
 
 
 def show(): 

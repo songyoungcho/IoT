@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
@@ -10,7 +9,6 @@
  <script>
      
        
-
  </script>
 </head>
 <body>
@@ -18,10 +16,10 @@
       <a href="http://www.naver.com" onclick="location.href='pro';return false;"> <!--return false :: onClick 이벤트 뒤에 return false 를 해주면 href 이벤트가 작동하지 않는다. -->
         <img src="https://ifh.cc/g/JDenSj.png"/></a>  
     </div>
-
     <div class="main">
       <img class="mid" id="l" src="https://ifh.cc/g/5ozvDu.png">
       <div class="mid">
+
         <iframe src="http://localhost:8080/stream" width="600px" height="480px"></iframe>
       </div>
       <img class="mid" id="r" src="https://ifh.cc/g/ilKSBj.png">
@@ -30,9 +28,10 @@
     <div class="handle">
       <div class="cgear">
         <a class="cgear" href="#" onclick="pic(); return false;"> <!--return false :: onClick 이벤트 뒤에 return false 를 해주면 href 이벤트가 작동하지 않는다. -->
+          
           <img src="https://ifh.cc/g/WA00mD.png"/></a> 
         <br>
-        <p class="cgear" id='pict'>PUSH</p>
+        <p id='cap' class="cgear">PUSH</p>
       </div>
       <div class="cgear">
         <h1 class="gear" id="p">P</h1>
@@ -42,7 +41,6 @@
         <h1 class="gear" id="n">N</h1>
         <br>
         <h1 class="gear" id="d">D</h1>
-
       </div>
     </div>
     <script>
@@ -93,7 +91,6 @@
                 b.style.color='#56606ed2';
                 d.style.color='#56606ed2';
               }
-
               
               
           });
@@ -104,7 +101,7 @@
             .then(response=> { console.log(response); return response.text()})
             .then(data=> {
                 console.log(data);
-                let result = document.getElementById('pict');
+                let result = document.getElementById('cap');
                 
                  if(data=="capture"){                                                 /* "ok" 가 돌아오면 이에 따라 적합한 결과 출력해 줌 */
                  result.innerHTML = "CAPTURE";
@@ -114,6 +111,7 @@
                 
             });
         }
+      
       
   </script>
 </body>
