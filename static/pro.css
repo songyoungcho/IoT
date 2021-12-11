@@ -1,5 +1,5 @@
 body {
-    background-color: antiquewhite;
+    background-color: #D6D2CF;
 }
 
 .container {                    /* 전체 화면의 크기 마진 그리고 글자정렬 */
@@ -7,18 +7,28 @@ body {
     margin: 0 auto;
     text-align: center;
 }
+h1{
+    color:#454140;
+}
 
+#result{
+    color:#76978a;
+}
 .main {                         /* 첫번째 버튼 */
     display: flex;
+}
+
+.btn1{
+    width:30px;
+    height: 30px;
+}
+
+.btn2{
+    width:30px;
+    height: 30px;
 }
 
 /* .main div {                     
     flex:1;
 } */
 
-.main div button {              /* 버튼의 모양 */
-    background-color: rgb(192, 114, 114);
-    width:150px;
-    height:80px;
-    border-radius: 10px;
-}

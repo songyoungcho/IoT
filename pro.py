@@ -35,10 +35,32 @@ servo2 = GPIO.PWM(SERVO_PIN2,50)
 servo.start(0)
 servo.ChangeDutyCycle(2.5)  # 모터 초기화 0도 열어둔 상태
 servo2.start(0)
-servo2.ChangeDutyCycle(2.5)  # 모터 초기화 0도 열어둔 상태
+servo2.ChangeDutyCycle(7.5)  # 모터 초기화 0도 열어둔 상태
+
+delay = 0.5
+# MCP3008 채널설정
+sw_channel = 0
+vrx_channel = 1
+vry_channel = 2
+# SPI 인스턴스 spi 생성
+spi = spidev.SpiDev()
+# SPI 통신 시작하기
+spi.open(0, 0)
+# SPI 통신 속도 설정
+spi.max_speed_hz = 100000
+
 
 unlock=True
 trunk=False
+open=False
+
+# 0 ~ 7 까지 8개의 채널에서 SPI 데이터를 읽어서 반환
+def readadc(adcnum):
+    if adcnum > 7 or adcnum < 0:
+        return -1
+    r = spi.xfer2([1, 8 + adcnum << 4, 0])
+    data = ((r[1] & 3) << 8) + r[2]
+    return data
 
 @app.route("/")
 def home():
@@ -48,46 +70,47 @@ def home():
 def main():
     return render_template('pro.html')
 
-@app.route("/lock")     #웹에서 차문 잠금 
-def lock():                                  
-    global unlock
-    if unlock==False:     #잠겨있을 때 
-        servo.ChangeDutyCycle(2.5)  #모터로 잠금 0도  -->열기
-        GPIO.output(led_pin_l,1)    # LED ON
-        GPIO.output(led_pin_r,1)    # LED ON
-        time.sleep(1)   # 1초동안 대기상태
-        GPIO.output(led_pin_l,0)    # LED OFF   # LED 깜빡 
-        GPIO.output(led_pin_r,0)    # LED OFF
-        unlock = not unlock
-        return "unlock"
+@app.route("/pro/drive")
+def main():
+    return render_template('drive.html')
 
-    else:     #열려있을 때
+
+
+@app.route("/lock")     #웹에서 차문 잠금 
+def lock():               
         servo.ChangeDutyCycle(7.5)  # 모터로 잠금 90도
         GPIO.output(led_pin_l,1)    # LED ON
         GPIO.output(led_pin_r,1)    # LED ON
         time.sleep(1)   # 1초동안 대기상태
         GPIO.output(led_pin_l,0)    # LED OFF   # LED 깜빡 
         GPIO.output(led_pin_r,0)    # LED OFF
-        unlock = not unlock
+
         return "lock"
 
-# try:      #움직임 인식하면 트렁크 열림
-#     while True:
-#         if GPIO.input(motion) == 1: 	#물체 감지
-#             if trunk == False:
-#                 servo.ChangeDutyCycle(2.5)    #트렁크 열기
-#                 print("motion working")
-#                 time.sleep(0.2)
-#                 unlock = not unlock
-#             else:
-#                 servo.ChangeDutyCycle(7.5)    #트렁크 닫기
-#                 time.sleep(0.2)
-#                 unlock = not unlock
+@app.route("/unlock")
+def unlock():
+    servo.ChangeDutyCycle(2.5)  #모터로 잠금 0도  -->열기
+    GPIO.output(led_pin_l,1)    # LED ON
+    GPIO.output(led_pin_r,1)    # LED ON
+    time.sleep(1)   # 1초동안 대기상태
+    GPIO.output(led_pin_l,0)    # LED OFF   # LED 깜빡 
+    GPIO.output(led_pin_r,0)    # LED OFF
+    return "unlock"
 
-# except KeyboardInterrupt:
-#                 print("Stopped by User")
-#                 GPIO.cleanup()
 
+#트렁크 버튼
+@app.route("/trunk")
+def trunk():
+    global trunk
+    if trunk==False:
+        servo2.ChangeDutyCycle(2.5)  #모터로 잠금 0도  -->닫기
+        trunk=not trunk
+        return "trunkclose"
+        
+    else:
+        servo2.ChangeDutyCycle(7.5)  #모터로 잠금 0도  -->열기
+        trunk=not trunk
+        return "trunkopen"
 
 
 if __name__ == "__main__":

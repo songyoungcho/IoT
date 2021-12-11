@@ -11,8 +11,21 @@
             <h2>CAR IoT</h2>
         </div>
         <div class="main">
-            <div>
-                <button id="lockBtn" onclick="lock()">LOCK</button>                      <!-- Javascript 함수 지정 -->
+            <div class="btn1">
+                <a href="http://www.naver.com" onclick="lock();return false;"> <!--return false :: onClick 이벤트 뒤에 return false 를 해주면 href 이벤트가 작동하지 않는다. -->
+                    <img src="https://ifh.cc/g/LpYeD0.png"/></a> 
+            </div>
+            <div class="btn2">                   <!-- Javascript 함수 지정 -->
+                <a href="http://www.naver.com" onclick="unlock();return false;"> <!--return false :: onClick 이벤트 뒤에 return false 를 해주면 href 이벤트가 작동하지 않는다. -->
+                    <img src="https://ifh.cc/g/QlTXnI.png"/></a>  
+            </div>
+            <div class="btn3">                   <!-- Javascript 함수 지정 -->
+                <a href="http://www.naver.com" onclick="trunk();return false;"> <!--return false :: onClick 이벤트 뒤에 return false 를 해주면 href 이벤트가 작동하지 않는다. -->
+                    <img src="https://ifh.cc/g/EwHfAM.png"/></a>  
+            </div>
+            <div class="btn4">                   <!-- Javascript 함수 지정 -->
+                <a href="http://www.naver.com" onclick="location.href='drive'; return false;"> <!--return false :: onClick 이벤트 뒤에 return false 를 해주면 href 이벤트가 작동하지 않는다. -->
+                    <img src="https://ifh.cc/g/CFpWvs.png"/></a>  
             </div>
            
         </div>
@@ -27,36 +40,34 @@
             .then(data=> {
                 console.log(data);
                 let result = document.querySelector("#result");     
-                let button = document.querySelector("#lockBtn")            /* result 영역을 알아내고 */
-                const btnElement = document.getElementById('lockBtn');
-                btnElement.innerText = 'LOCK';
-                if(data=="lock"){                                                 /* "ok" 가 돌아오면 이에 따라 적합한 결과 출력해 줌 */
-                    const btnElement = document.getElementById('lockBtn');
-                    btnElement.innerText = 'UNLOCK'; 
-                    result.innerHTML = "<h1>LOCK</h1>";
-                }if(data=="unlock"){                                                 /* "ok" 가 돌아오면 이에 따라 적합한 결과 출력해 줌 */
-                const btnElement = document.getElementById('lockBtn');
-                    btnElement.innerText = 'LOCK'; 
-                    result.innerHTML = "<h1>UNLOCK</h1>";
-                }
-                // else{
-                //     result.innerHTML = "<h1>error</h1>";
-                // }
+                let button = document.querySelector("#lockBtn")
+                result.innerHTML = "<h1>LOCK</h1>";
+                
             });
         }
-        // function unlock(){                  //자동차 열기
-        //     fetch("/unlock")
-        //     .then(response=> { console.log(response); return response.text()})
-        //     .then(data=> {
-        //         console.log(data);
-        //         let result = document.querySelector("#result");
-        //         if(data=="ok"){  
-        //             result.innerHTML = "<h1>unlock</h1>";
-        //         }else{
-        //             result.innerHTML = "<h1>error</h1>";
-        //         }
-        //     });
-        // }
+        function unlock(){                  //자동차 열기
+            fetch("/unlock")
+            .then(response=> { console.log(response); return response.text()})
+            .then(data=> {
+                console.log(data);
+                let result = document.querySelector("#result");
+                result.innerHTML = "<h1>UNLOCK</h1>";
+            });
+        }
+        function trunk(){                  //트렁크 열기
+            fetch("/trunk")
+            .then(response=> { console.log(response); return response.text()})
+            .then(data=> {
+                console.log(data);
+                let result = document.querySelector("#result");
+                
+                 if(data=="trunkopen"){                                                 /* "ok" 가 돌아오면 이에 따라 적합한 결과 출력해 줌 */
+                 result.innerHTML = "<h1>TRUNK OPEN</h1>";
+                }if(data=="trunkclose"){                                                 /* "ok" 가 돌아오면 이에 따라 적합한 결과 출력해 줌 */
+                result.innerHTML = "<h1>TRUNK CLOSE</h1>";
+                }
+            });
+        }
     </script>
 </body>
 </html>
