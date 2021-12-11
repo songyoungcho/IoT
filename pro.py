@@ -114,38 +114,97 @@ def trunk():
         trunk=not trunk
         return "trunkopen"
 
-@app.route("/gear")
-def gear():
+# @app.route("/gear")
+# def gear():
+#     gear_val=[0,0]
+# # 무한루프
+#     while True:
+# # X, Y 축 포지션값
+#         vrx_pos = readadc(vrx_channel)
+#         vry_pos = readadc(vry_channel)
+# # 스위치 입력
+#         sw_val = readadc(sw_channel)
+# # 출력
+#         if vrx_pos==0:
+#                 if gear_val[0]>-1:
+#                     gear_val[0]-=1
+#                     return gear_val
+#         if vrx_pos>1000:
+#             if gear_val[0]<1:
+#                 gear_val[0]+=1
+#                 return gear_val
+#         if vry_pos==0:
+#             if gear_val[1]>0:
+#                 gear_val[1]-=1
+#                 return gear_val
+#         if vry_pos>1000:
+#             if gear_val[1]<3:
+#                 gear_val[1]+=1
+#                 return gear_val
+#         else:
+#             return gear_val
+# # delay 시간만큼 기다림
+#         time.sleep(delay)
+#         print(gear_val[0],gear_val[1])
+
+def gearLoop():
     gear_val=[0,0]
 # 무한루프
-    while True:
 # X, Y 축 포지션값
-        vrx_pos = readadc(vrx_channel)
-        vry_pos = readadc(vry_channel)
+    vrx_pos = readadc(vrx_channel)
+    vry_pos = readadc(vry_channel)
 # 스위치 입력
-        sw_val = readadc(sw_channel)
+    sw_val = readadc(sw_channel)
 # 출력
-        if vrx_pos==0:
-                if gear_val[0]>-1:
-                    gear_val[0]-=1
-                    return gear_val
-        if vrx_pos>1000:
-            if gear_val[0]<1:
-                gear_val[0]+=1
+    if vrx_pos==0:
+            if gear_val[0]>-1:
+                gear_val[0]-=1
                 return gear_val
-        if vry_pos==0:
-            if gear_val[1]>0:
-                gear_val[1]-=1
-                return gear_val
-        if vry_pos>1000:
-            if gear_val[1]<3:
-                gear_val[1]+=1
-                return gear_val
-        else:
+    if vrx_pos>1000:
+        if gear_val[0]<1:
+            gear_val[0]+=1
             return gear_val
-# delay 시간만큼 기다림
-        time.sleep(delay)
-        print(gear_val[0],gear_val[1])
+    if vry_pos==0:
+        if gear_val[1]>0:
+            gear_val[1]-=1
+            return gear_val
+    if vry_pos>1000:
+        if gear_val[1]<3:
+            gear_val[1]+=1
+            return gear_val
+    else:
+        return gear_val
+
+@app.route('/gear')
+def gear():
+    while(1):
+        if(gearLoop()[0]==-1):
+            if(gearLoop()[1]==0):
+                return "ld"
+            if(gearLoop()[1]==1):
+                return "ln"
+            if(gearLoop()[1]==2):
+                return "lr"
+            else:
+                return "lp"
+        if(gearLoop()[0]==0):
+            if(gearLoop()[1]==0):
+                return "nd"
+            if(gearLoop()[1]==1):
+                return "nn"
+            if(gearLoop()[1]==2):
+                return "nr"
+            else:
+                return "np"
+        if(gearLoop()[0]==1):
+            if(gearLoop()[1]==0):
+                return "rd"
+            if(gearLoop()[1]==1):
+                return "rn"
+            if(gearLoop()[1]==2):
+                return "rr"
+            else:
+                return "rp"
 
 
 if __name__ == "__main__":
