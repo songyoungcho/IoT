@@ -5,9 +5,12 @@ import time
 from tkinter import *  
 import spidev
 from flask import Flask, request
-from flask import render_template
+from flask import render_template, render_template, Response 
+import cv2
+import picamera
 
 app = Flask(__name__)
+vc = cv2.VideoCapture(0)
 
 led_pin_l = 21
 led_pin_r = 2
@@ -25,8 +28,6 @@ GPIO.setup(SERVO_PIN, GPIO.OUT)
 GPIO.setup(SERVO_PIN2, GPIO.OUT)
 GPIO.setup(motion, GPIO.IN)
 
-print ("PIR Ready . . . . ")
-time.sleep(5)  # PIR 센서 준비 시간 
 
 # PWM 인스턴스 servo 생성, 주파수 50으로 설정 
 servo = GPIO.PWM(SERVO_PIN,50)
@@ -53,6 +54,7 @@ spi.max_speed_hz = 100000
 unlock=True
 trunk=False
 open=False
+record=False
 
 # 0 ~ 7 까지 8개의 채널에서 SPI 데이터를 읽어서 반환
 def readadc(adcnum):
@@ -70,10 +72,10 @@ def home():
 def main():
     return render_template('pro.html')
 
-@app.route("/pro/drive")
-def main():
+@app.route("/drive")
+def drive():
+    record=True
     return render_template('drive.html')
-
 
 
 @app.route("/lock")     #웹에서 차문 잠금 
@@ -111,6 +113,39 @@ def trunk():
         servo2.ChangeDutyCycle(7.5)  #모터로 잠금 0도  -->열기
         trunk=not trunk
         return "trunkopen"
+
+@app.route("/gear")
+def gear():
+    gear_val=[0,0]
+# 무한루프
+    while True:
+# X, Y 축 포지션값
+        vrx_pos = readadc(vrx_channel)
+        vry_pos = readadc(vry_channel)
+# 스위치 입력
+        sw_val = readadc(sw_channel)
+# 출력
+        if vrx_pos==0:
+                if gear_val[0]>-1:
+                    gear_val[0]-=1
+                    return gear_val
+        if vrx_pos>1000:
+            if gear_val[0]<1:
+                gear_val[0]+=1
+                return gear_val
+        if vry_pos==0:
+            if gear_val[1]>0:
+                gear_val[1]-=1
+                return gear_val
+        if vry_pos>1000:
+            if gear_val[1]<3:
+                gear_val[1]+=1
+                return gear_val
+        else:
+            return gear_val
+# delay 시간만큼 기다림
+        time.sleep(delay)
+        print(gear_val[0],gear_val[1])
 
 
 if __name__ == "__main__":

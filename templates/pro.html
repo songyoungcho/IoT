@@ -8,28 +8,28 @@
 <body>
     <div class="container">
         <div class="header">
-            <h2>CAR IoT</h2>
+            <h1>CAR IoT</h1>
         </div>
         <div class="main">
-            <div class="btn1">
+            <div class="btn">
                 <a href="http://www.naver.com" onclick="lock();return false;"> <!--return false :: onClick 이벤트 뒤에 return false 를 해주면 href 이벤트가 작동하지 않는다. -->
-                    <img src="https://ifh.cc/g/LpYeD0.png"/></a> 
+                    <img src="https://ifh.cc/g/EuqAMY.png"/></a> 
             </div>
-            <div class="btn2">                   <!-- Javascript 함수 지정 -->
+            <div class="btn">                   <!-- Javascript 함수 지정 -->
                 <a href="http://www.naver.com" onclick="unlock();return false;"> <!--return false :: onClick 이벤트 뒤에 return false 를 해주면 href 이벤트가 작동하지 않는다. -->
-                    <img src="https://ifh.cc/g/QlTXnI.png"/></a>  
+                    <img src="https://ifh.cc/g/KcP3nz.png"/></a>  
             </div>
-            <div class="btn3">                   <!-- Javascript 함수 지정 -->
+            <div class="btn">                   <!-- Javascript 함수 지정 -->
                 <a href="http://www.naver.com" onclick="trunk();return false;"> <!--return false :: onClick 이벤트 뒤에 return false 를 해주면 href 이벤트가 작동하지 않는다. -->
-                    <img src="https://ifh.cc/g/EwHfAM.png"/></a>  
+                    <img src="https://ifh.cc/g/gNdtZ5.png"/></a>  
             </div>
-            <div class="btn4">                   <!-- Javascript 함수 지정 -->
+            <div class="btn">                   <!-- Javascript 함수 지정 -->
                 <a href="http://www.naver.com" onclick="location.href='drive'; return false;"> <!--return false :: onClick 이벤트 뒤에 return false 를 해주면 href 이벤트가 작동하지 않는다. -->
-                    <img src="https://ifh.cc/g/CFpWvs.png"/></a>  
+                    <img src="https://ifh.cc/g/ImfFGB.png"/></a>  
             </div>
            
         </div>
-        <div id="result">
+        <div id='result'>
 
         </div>
     </div>
@@ -41,7 +41,7 @@
                 console.log(data);
                 let result = document.querySelector("#result");     
                 let button = document.querySelector("#lockBtn")
-                result.innerHTML = "<h1>LOCK</h1>";
+                result.innerHTML = "<h1 id='re'>LOCK</h2>";
                 
             });
         }
@@ -51,7 +51,7 @@
             .then(data=> {
                 console.log(data);
                 let result = document.querySelector("#result");
-                result.innerHTML = "<h1>UNLOCK</h1>";
+                result.innerHTML = "<h1 id='re'>UNLOCK</h2>";
             });
         }
         function trunk(){                  //트렁크 열기
@@ -62,10 +62,11 @@
                 let result = document.querySelector("#result");
                 
                  if(data=="trunkopen"){                                                 /* "ok" 가 돌아오면 이에 따라 적합한 결과 출력해 줌 */
-                 result.innerHTML = "<h1>TRUNK OPEN</h1>";
+                 result.innerHTML = "<h1 id='re'>TRUNK OPEN</h2>";
                 }if(data=="trunkclose"){                                                 /* "ok" 가 돌아오면 이에 따라 적합한 결과 출력해 줌 */
-                result.innerHTML = "<h1>TRUNK CLOSE</h1>";
+                result.innerHTML = "<h1 id='re'TRUNK CLOSE</h2>";
                 }
+                
             });
         }
     </script>

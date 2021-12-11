@@ -3,30 +3,35 @@ body {
 }
 
 .container {                    /* 전체 화면의 크기 마진 그리고 글자정렬 */
-    width: 700px;
+    width: 100%;
     margin: 0 auto;
     text-align: center;
 }
 h1{
+    color:#454140
+}
+h2{
     color:#454140;
 }
 
-#result{
-    color:#76978a;
+#re{
+    color:#56606ed2;
 }
 .main {                         /* 첫번째 버튼 */
-    display: flex;
+    /*display: flex;*/
+    text-align: center;
 }
 
-.btn1{
-    width:30px;
-    height: 30px;
+.btn{
+
+    
+    margin-right: 180px;
+    margin-top:180px;
+    margin-bottom:150px;
+    display: inline-block;
 }
 
-.btn2{
-    width:30px;
-    height: 30px;
-}
+
 
 /* .main div {                     
     flex:1;
