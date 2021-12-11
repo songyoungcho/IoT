@@ -19,6 +19,7 @@ motion = 6
 buzzer=18
 TRIG = 23
 ECHO = 24
+warning=26
 
 # 불필요한 warning 제거, GPIO핀의 번호 모드 설정
 GPIO.setwarnings(False)
@@ -32,6 +33,7 @@ GPIO.setup(motion, GPIO.IN)
 GPIO.setup(buzzer, GPIO.OUT)
 GPIO.setup(TRIG,GPIO.OUT)
 GPIO.setup(ECHO,GPIO.IN)
+GPIO.setup(warning, GPIO.OUT)
 
 
 # PWM 인스턴스 servo 생성, 주파수 50으로 설정 
@@ -206,15 +208,21 @@ def distance():
 def warn():
     if distance()<20:
         p.start(10)
+        GPIO.output(warning,1)
         time.sleep(3)
+        GPIO.output(warning,0)
         p.stop()
     if distance()<10:
         p.start(20)
+        GPIO.output(warning,1)
         time.sleep(2)
+        GPIO.output(warning,0)
         p.stop()
     if distance()<5:
         p.start(30)
+        GPIO.output(warning,1)
         time.sleep(1)
+        GPIO.output(warning,0)
         p.stop()
 
 @app.route('/gear')
