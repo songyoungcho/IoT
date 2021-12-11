@@ -42,6 +42,10 @@ trunk=False
 
 @app.route("/")
 def home():
+    return render_template('login.html')
+
+@app.route("/pro")
+def main():
     return render_template('pro.html')
 
 @app.route("/lock")     #웹에서 차문 잠금 

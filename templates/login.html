@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car IoT</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}"> <!-- css 파일 지정-->
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+ <script>
+     $(document).ready(function(){
+        
+        $("button").click(function btn(event){
+            var id=$('#name').val();
+             var pw=$("#pw").val();
+            if(id=="songyoungcho"&&pw=="thddudch"){
+                location.href='pro';
+            }
+            else{
+                $('#result').text('*try again');
+            }
+         });
+         $('#name').keydown(function(e){
+             if(e.keyCode==9){
+                $(this).next('.input_pw').focus();
+             }
+         });
+
+         $('#result').css('color','red');
+        
+     });
+ </script>
+</head>
+<body>
+    <div class="header">
+        <h1 class="font_big font_bold font_center font=">LOGIN</h1>
+    </div>
+    <div class="container">
+      <input id='name' class="input_id" type="text" required>
+      <span class="label">ID</span>
+    </div>
+    <br><br><br>
+    <div class="container2">
+      <input id='pw' class="input_pw" type="password" required>
+      <span class="password">PW</span>
+    </div>
+    <div class="container3">
+        <div>
+           <!-- <button onclick="location.href='pro'" id="btn">LOGIN</button> -->
+           <p id="result"></p> 
+            <button id="btn">LOGIN</button>
+            <p id="result"></p>                     <!-- Javascript 함수 지정 -->
+        </div>
+    </div>
+    <script>
+        
+    </script>
+</body>
+</html>
