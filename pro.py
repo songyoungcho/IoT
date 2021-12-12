@@ -7,10 +7,8 @@ from flask import Flask, request
 from flask import render_template, render_template, Response 
 from PIL import Image
 import picamera
-import cv2
 
 app = Flask(__name__)
-vc = cv2.VideoCapture(0)
 led_pin_l = 21
 led_pin_r = 2
 SERVO_PIN = 13
@@ -209,34 +207,7 @@ def gear():
     time.sleep(0.3)
     return x+y
 
-def pict():                                
-    with picamera.PiCamera() as camera:
-       camera.resolution = (640, 480)
-       camera.start_preview()
-       time.sleep(1)
-       camera.capture('cos.jpg')
-       camera.stop_preview()
 
-
-
-def show(): 
-    img = Image.open("/home/pi/class/cos.jpg")
-    print(type(img))
-    img.show()
-
-@app.route('/pic')
-def pic():
-    global picture
-    if(picture==False):
-        t3=threading.Thread(target=pict)
-        t3.start()
-        picture = not picture
-        return "capture"
-    else:
-        t4=threading.Thread(target=show)
-        t4.start()
-        picture = not picture
-        return "show"
 
 
 
